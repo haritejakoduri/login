@@ -1,6 +1,7 @@
 const mysql=require('mysql')
 const bcrypt =require('bcrypt')
 const Q=require('q')
+const jwt=require('jsonwebtoken')
 const connection =mysql.createConnection({
     host:'localhost',
     user:'root',
@@ -62,23 +63,30 @@ function loginUser(user,req,res){
         const hash=results[0].password;
         bcrypt.compare(user.password, hash, function(err, result) {
             if(err){
-                loggin=false;
                 console.log(err)
+                result={
+                    result:false
+                }
             }
-            else{
-                loggin=true;
+            if(result==true){
+                var jwt = require('jsonwebtoken');
+                var token = jwt.sign({ username:user.username,password:hash }, 'secret_key_shoud_be_stored_in_env_variables');
+                result={
+                    key:token,
+                    result:true
+                }
             }
             //console.log(result)
             res.send(result)
         });
      }
      catch(err){
-         res.send(false)
+         res.send({
+             result:false
+         })
          console.log('something problem');
      }
-        
-    }
-    )
+    })
     //callback(loggin)
    /*  bcrypt.compare(user.password, hash, function(err, result) {
         // result == true

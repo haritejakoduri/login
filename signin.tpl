@@ -86,12 +86,13 @@
             })
             .then(function (response) {
                 console.log(response);
-                if(response.data==false){
+                if(response.data.result==false || response.data==false){
                     alert("email id or password wrong! try again!")
                     $("#username").val("")
                     $("#password").val("")
                 }
-                if(response.data==true){
+                if(response.data.result==true){
+                    localStorage.setItem("key", response.data.key)
                     window.location.replace("http://localhost:8000/welcome")
                 }
             })
