@@ -11,7 +11,7 @@
 </div>
 <script>
 function authme(){
-    const key=localStorage.getItem("key")
+    var key=localStorage.getItem("key");
     axios({
                 method: 'get',
                 url: '/user',
@@ -47,10 +47,29 @@ function products(){
   })
 }
 function gen_product(data){
+
     data.url='http://localhost:8000/showproduct/?thumbanilUrl='+data.thumbnailUrl+'&title='+data.title;
-    let val='<div class="col-3"><div class="card" style="width: 14rem;"><img src="'+data.thumbnailUrl+'" class="card-img-top" alt="..."><div class="card-body"><p class="card-text">'+data.title+'</p><a href="'+data.url+'" class="btn btn-primary">go here</a></div></div></div>'
+    let val='<div class="col-3"><div class="card" style="width: 14rem;"><img src="'+data.thumbnailUrl+'" class="card-img-top" alt="..."><div class="card-body"><p class="card-text">'+data.title+'</p><button href="'+data.url+'"  class="btn btn-primary" id="datanew"  tumbnailUrl="'+data.thumbnailUrl+'" title="'+data.title+'" onclick="datanew(this)">go here</button></div></div></div>'
     $("#container-product").append(val);
 }
+
+function datanew(data){
+    console.log(data)
+    var thumbnailUrl=$(data).attr("tumbnailurl")
+    var title=$(data).attr("title");
+    //getproducts
+    var producturl='http://localhost:8000/getproducts/?thumbanilUrl='+thumbnailUrl+'&title='+title;
+    var showproduct='http://localhost:8000/showproduct/?thumbanilUrl='+thumbnailUrl+'&title='+title;
+   console.log(producturl)
+    window.localStorage.setItem("product",producturl)
+    window.location.href = showproduct;
+      /*   console.log("tel")
+        var self = $(this);
+        var href = self.attr('href')
+        console.log(self)
+        console.log(href)
+        window.localStorage.setItem('product', href); */
+    };
 $(function(){
     authme()
     $("#logout").click(function(){
@@ -58,6 +77,12 @@ $(function(){
         window.location.replace("http://localhost:8000/signin")
     })
     products()
+   $("#newclick").click(function(){
+        localStorage.clear();
+        window.location.replace("http://localhost:8000/signin")
+    })
+
+    
 })
 </script>
 </body>

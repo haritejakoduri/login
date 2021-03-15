@@ -1,6 +1,5 @@
 const mysql=require('mysql')
 const bcrypt =require('bcrypt')
-const Q=require('q')
 const jwt=require('jsonwebtoken')
 const connection =mysql.createConnection({
     host:'localhost',
