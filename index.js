@@ -38,6 +38,10 @@ app.get('/showproduct',(req,res)=>{
   var stream=nsmarty.assign('showproduct.tpl',$app);
   util.pump(stream,res)
 })
+app.get('/cart',(req,res)=>{
+  var stream=nsmarty.assign('added_cart.tpl');
+  util.pump(stream,res)
+})
 app.get('/getproducts',(req,res)=>{
   res.send(req.query);
 })
